@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unread Emails</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      padding: 20px;
+    }
+    .email {
+      border: 1px solid #ddd;
+      margin-bottom: 15px;
+      padding: 15px;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+    .email h3 {
+      margin: 0 0 10px;
+    }
+    .email p {
+      margin: 5px 0;
+    }
+    .email small {
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <h1>Unread Emails</h1>
+  <div id="emails-container">
+    <p>Loading...</p>
+  </div>
+
+  <script>
+    async function fetchEmails() {
+      const response = await fetch('http://localhost:3000/emails');
+      const emails = await response.json();
+      const container = document.getElementById('emails-container');
+      container.innerHTML = '';
+
+      if (emails.length === 0) {
+        container.innerHTML = '<p>No unread emails found.</p>';
+        return;
+      }
+
+      emails.forEach(email => {
+        const emailDiv = document.createElement('div');
+        emailDiv.classList.add('email');
+
+        emailDiv.innerHTML = `
+          <h3>${email.subject || '(No Subject)'}</h3>
+          <p><strong>From:</strong> ${email.from}</p>
+          <p>${email.body.slice(0, 100)}...</p>
+          <small>${new Date(email.date).toLocaleString()}</small>
+        `;
+
+        container.appendChild(emailDiv);
+      });
+    }
+
+    fetchEmails();
+  </script>
+</body>
+</html>
