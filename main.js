@@ -8,7 +8,7 @@ const port = 3000;
 
 const imapConfig = {
   user: 'francesco.mauri@itsrizzoli.it',
-  password: 'lgkwmdsxafokhpcr', // Use app password if 2FA is enabled
+  password: '', // Use app password if 2FA is enabled
   host: 'imap.gmail.com',
   port: 993,
   tls: true,
